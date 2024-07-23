@@ -59,7 +59,7 @@ let canvasID,
     tFrame = 0, // cur frame in draw
     powerupProb = 0.005, // in percent
     bridgeProb = 0.005, // in percent
-    bridgeSize = 10, // in frames
+    bridgeBaseDuration = 500, // in milliseconds
     turnSpeed = 4, // in radians per second
     w,
     h,
@@ -122,7 +122,7 @@ function init() {
         players[player].alive = true
         players[player].winner = false
         players[player].bridge = false
-        players[player].bridgeFrame = 0
+        players[player].bridgeStartTime = 0
         players[player].powerup = {} // contains powerup values
         players[player].powerup.size = 1
         players[player].powerup.robot = 0
@@ -421,10 +421,11 @@ function draw() {
                 // if math.random() less than prob for bridge
                 players[player].bridge = true
             }
-            players[player].bridgeFrame = tFrame // what frame did bridge start
+            players[player].bridgeStartTime = now // what frame did bridge start
         }
-        if (players[player].bridgeFrame < tFrame - (bridgeSize / players[player].powerup.speed) * players[player].powerup.size) {
-            // stop bridge when bridgeSize frame has passed
+        // Bridge is wider for thicker players, and ticks faster for faster players (to result the overall same distance)
+        if (now > players[player].bridgeStartTime + (bridgeBaseDuration / players[player].powerup.speed * players[player].powerup.size)) {
+            // stop bridge when enough time has passed
             players[player].bridge = false
         }
 

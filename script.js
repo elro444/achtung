@@ -295,8 +295,11 @@ function draw() {
     ctxDO.lineWidth = borderWidth
     ctxDO.strokeStyle = "#000000"
     ctxDO.strokeRect(borderWidth / 2, borderWidth / 2, h - borderWidth, h - borderWidth)
-    if (achtung.sides != 0) ctxDO.strokeStyle = `rgba(255, 255, 0, ${Math.abs((tFrame % 40) - 20) / 20})`
-    else ctxDO.strokeStyle = yellow // if sides, border flickers
+    let oscilatingAlphaValue = Math.abs((now % 1000) - 500) / 500;
+    if (achtung.sides != 0)
+        ctxDO.strokeStyle = `rgba(255, 255, 0, ${oscilatingAlphaValue})`;
+    else
+        ctxDO.strokeStyle = yellow; // if sides, border flickers
     ctxDO.strokeRect(borderWidth / 2, borderWidth / 2, h - borderWidth, h - borderWidth)
 
     // spawn new powerup if arcade mode and math.random() < powerup probability
@@ -319,11 +322,11 @@ function draw() {
         if (players[player].powerup.reverse == 0) {
             if (players[player].powerup.side == 0) {
                 ctxDO.fillStyle = yellow
-            } else ctxDO.fillStyle = `rgba(255, 255, 0, ${Math.abs((tFrame % 40) - 20) / 20})` // flicker dot if side powerup
+            } else ctxDO.fillStyle = `rgba(255, 255, 0, ${oscilatingAlphaValue})` // flicker dot if side powerup
         } else {
             if (players[player].powerup.side == 0) {
                 ctxDO.fillStyle = blue
-            } else ctxDO.fillStyle = `rgba(0, 0, 255, ${Math.abs((tFrame % 40) - 20) / 20})` // flicker dot if side powerup
+            } else ctxDO.fillStyle = `rgba(0, 0, 255, ${oscilatingAlphaValue})` // flicker dot if side powerup
         }
         if (players[player].powerup.robot == 0) {
             // draw dot if normal

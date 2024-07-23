@@ -60,7 +60,7 @@ let canvasID,
     powerupProb = 0.005, // in percent
     bridgeProb = 0.005, // in percent
     bridgeSize = 10, // in frames
-    turnSpeed = 0.06, // in radians per frame
+    turnSpeed = 4, // in radians per second
     w,
     h,
     w100th,
@@ -69,6 +69,7 @@ let canvasID,
     playerSize,
     hitboxSize,
     borderWidth,
+    lastFrameTime,
     iconSize // to be set in newSize()
 
 // when resizing
@@ -149,6 +150,8 @@ function init() {
     calcRandomStartDir() // calc random start directions
     drawGameUI() // draw ui
     drawStart() // draw players at start so they can see where they're going
+
+    lastFrameTime = Date.now();
 }
 
 document.addEventListener("keydown", (e) => {
@@ -218,6 +221,7 @@ function pressSpace() {
     if (!achtung.gameEnded) {
         if (!achtung.gameRunning) {
             // resume game
+            lastFrameTime = Date.now();
             achtung.gameRunning = true
             window.requestAnimationFrame(draw)
         } else {
@@ -278,6 +282,8 @@ function drawStart() {
 function draw() {
     canvasID = window.requestAnimationFrame(draw) // to pause: cancelAnimationFrame(CanvasID)
     tFrame++ // increment tFrame
+    let now = Date.now();
+    let dt = (now - lastFrameTime) / 1000;
 
     // clear
     ctxTH.clearRect(h, 0, w - h, h)
@@ -342,13 +348,14 @@ function draw() {
         // update player turning
         if (players[player].powerup.robot == 0) {
             // if normal
+            let turnMagnitude = dt * turnSpeed / Math.pow(players[player].powerup.size, 0.3);
             if (players[player].turnL) {
-                if (players[player].powerup.reverse == 0) players[player].dir -= turnSpeed / Math.pow(players[player].powerup.size, 0.3)
-                else players[player].dir += turnSpeed / Math.pow(players[player].powerup.size, 0.3)
+                if (players[player].powerup.reverse == 0) players[player].dir -= turnMagnitude;
+                else players[player].dir += turnMagnitude;
             }
             if (players[player].turnR) {
-                if (players[player].powerup.reverse == 0) players[player].dir += turnSpeed / Math.pow(players[player].powerup.size, 0.3)
-                else players[player].dir -= turnSpeed / Math.pow(players[player].powerup.size, 0.3)
+                if (players[player].powerup.reverse == 0) players[player].dir += turnMagnitude;
+                else players[player].dir -= turnMagnitude;
             }
         } else {
             // if robot
@@ -505,7 +512,8 @@ function draw() {
     }
 
     // drawGameUI()
-    checkGameState()
+    checkGameState();
+    lastFrameTime = now;
 }
 
 // check game stats

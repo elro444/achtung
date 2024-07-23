@@ -56,7 +56,6 @@ let canvasID,
     redt = getComputedStyle(document.documentElement).getPropertyValue(`--fred-t`),
     blue = getComputedStyle(document.documentElement).getPropertyValue(`--blue`),
     bluet = getComputedStyle(document.documentElement).getPropertyValue(`--blue-t`),
-    tFrame = 0, // cur frame in draw
     powerupProb = 0.005, // in percent
     bridgeProb = 0.005, // in percent
     bridgeBaseDuration = 500, // in milliseconds
@@ -281,7 +280,6 @@ function drawStart() {
 // main loop
 function draw() {
     canvasID = window.requestAnimationFrame(draw) // to pause: cancelAnimationFrame(CanvasID)
-    tFrame++ // increment tFrame
     let now = Date.now();
     let dt = (now - lastFrameTime) / 1000;
 

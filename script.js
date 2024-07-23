@@ -92,7 +92,7 @@ function newSize() {
     powerupHitboxCanvas.height = h
     w100th = w / 100 // 1 percent of canvas width
     h100th = h / 100 // 1 percent of canvas height
-    moveSpeed = w100th * 0.18 // in pixels per frame
+    moveSpeed = w100th * 10 // in pixels per second
     playerSize = w100th * 0.7 // in pixels
     hitboxSize = playerSize / 1.8 // in pixels
     borderWidth = w100th / 2 // in pixels
@@ -307,12 +307,13 @@ function draw() {
         if (!players[player].ready) continue // continue loop if player not playing
 
         // player pos
-        let prevprevPosX = players[player].x - mathCos(players[player].dir) * moveSpeed * players[player].powerup.speed,
-            prevprevPosY = players[player].y - mathSin(players[player].dir) * moveSpeed * players[player].powerup.speed,
+        let velocity = dt * moveSpeed * players[player].powerup.speed;
+        let prevprevPosX = players[player].x - mathCos(players[player].dir) * velocity,
+            prevprevPosY = players[player].y - mathSin(players[player].dir) * velocity,
             prevPosX = players[player].x,
             prevPosY = players[player].y,
-            nextPosX = players[player].x + mathCos(players[player].dir) * moveSpeed * players[player].powerup.speed,
-            nextPosY = players[player].y + mathSin(players[player].dir) * moveSpeed * players[player].powerup.speed
+            nextPosX = players[player].x + mathCos(players[player].dir) * velocity,
+            nextPosY = players[player].y + mathSin(players[player].dir) * velocity
 
         // draw player dot
         if (players[player].powerup.reverse == 0) {

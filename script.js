@@ -58,7 +58,7 @@ let canvasID,
     bluet = getComputedStyle(document.documentElement).getPropertyValue(`--blue-t`),
     powerupProb = 0.005, // in percent
     bridgeProb = 0.005, // in percent
-    bridgeBaseDuration = 500, // in milliseconds
+    bridgeBaseDuration = 250, // in milliseconds
     turnSpeed = 4, // in radians per second
     w,
     h,
@@ -447,8 +447,8 @@ function draw() {
         }
 
         // check collision
-        const pxFront = Math.round(players[player].x + mathCos(players[player].dir) * hitboxSize * players[player].powerup.size)
-        const pyFront = Math.round(players[player].y + mathSin(players[player].dir) * hitboxSize * players[player].powerup.size)
+        const pxFront = Math.round(players[player].x + mathCos(players[player].dir) * 1.1 * hitboxSize * players[player].powerup.size)
+        const pyFront = Math.round(players[player].y + mathSin(players[player].dir) * 1.1 * hitboxSize * players[player].powerup.size)
         const pxFront2 = Math.round(players[player].x + mathCos(players[player].dir))
         const pyFront2 = Math.round(players[player].y + mathSin(players[player].dir))
         const pxLeft = Math.round(players[player].x + mathCos(players[player].dir - r2d(55)) * hitboxSize * players[player].powerup.size)

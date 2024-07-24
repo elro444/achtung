@@ -58,7 +58,7 @@ let canvasID,
     bluet = getComputedStyle(document.documentElement).getPropertyValue(`--blue-t`),
     powerupProb = 0.005, // in percent
     bridgeProb = 0.005, // in percent
-    bridgeBaseDuration = 500, // in milliseconds
+    bridgeBaseDuration = 250, // in milliseconds
     turnSpeed = 4, // in radians per second
     w,
     h,
